@@ -17,11 +17,19 @@
   },
   "homepage": "https://github.com/rajitk13/GHS-Outpass#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
-    "ejs": "^3.1.6",
+    "connect-ensure-login": "^0.1.1",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.7",
     "express": "^4.17.3",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.2",
     "mongodb": "^4.4.1",
-    "mongoose": "^6.2.8",
-    "nodemon": "^2.0.15"
+    "mongoose": "^6.3.1",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^7.0.0"
   }
 }

@@ -1,10 +1,10 @@
-require('dotenv').config()
+require("dotenv").config();
 
-const express = require('express'); // server software
-const bodyParser = require('body-parser'); // parser middleware
-const session = require('express-session');  // session middleware
-const passport = require('passport');  // authentication
-const connectEnsureLogin = require('connect-ensure-login'); //authorization
+const express = require("express"); // server software
+const bodyParser = require("body-parser"); // parser middleware
+const session = require("express-session"); // session middleware
+const passport = require("passport"); // authentication
+const connectEnsureLogin = require("connect-ensure-login"); //authorization
 const LocalStrategy = require("passport-local");
 const port = process.env.PORT || 3000;
 const app = express();
@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 const Schema = require("mongoose").Schema;
 const ejs = require("ejs");
 const crypto = require("crypto");
+const { body, validationResult } = require('express-validator');
 
 //MongoDB
 mongoose.connect(
@@ -27,16 +28,13 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-   store:mongoose.on
+    store: mongoose.on,
   })
 );
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 
 const information = new mongoose.Schema({
   name: String,
@@ -64,11 +62,12 @@ passport.deserializeUser(UserDetails.deserializeUser());
 
 //HOME PAGE ROUTE
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("home",{name:false,reg:false,email:false,consent:false});
 });
 
 //Login Page route
 app.get("/login", (req, res) => {
+  req.logout();
   res.render("login");
 });
 
@@ -85,24 +84,13 @@ app.post("/submit", (req, res) => {
   });
 });
 
-app.get("/login", (req, res) => {
-  if (req.user) {
-    // logged in
-    res.render("requests")
-} else {
-    // not logged in
-    res.render("login");
-}
-  
-});
-
 app.get("/secret", connectEnsureLogin.ensureLoggedIn(), (req, res) =>
   res.render("requests.ejs")
 );
 
 app.get("/logout", (req, res) => {
   req.logout();
-  res.redirect("/");
+  res.redirect("/login");
 });
 
 app.post(

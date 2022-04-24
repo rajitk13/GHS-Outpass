@@ -1,4 +1,4 @@
-<%-include('partials/header');-%>
+<%-include( 'partials/header' ) %>
     <div class='area'>
         <h1 class="title">Good Host Spaces</h1>
         <h2 class="subtitle is-4">Outpass Portal</h2>
@@ -10,6 +10,9 @@
                 <div class="control">
                     <input class="input" type="text" name="name" id="name" placeholder="Text input">
                 </div>
+                <%if(name){ %>
+                    <p class="help is-danger">Name is invalid ❌</p>
+                    <% } %>
             </div>
 
             <div class="field">
@@ -19,11 +22,10 @@
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
-                    <span class="icon is-small is-right">
-                        <i class="fas fa-check"></i>
-                    </span>
                 </div>
-                <!-- <p class="help is-success">This username is available</p> -->
+                <%if(reg){ %>
+                    <p class="help is-danger">Registration Number is invalid ❌</p>
+                    <% } %>
             </div>
 
             <div class="field">
@@ -37,7 +39,9 @@
                         <i class="fas fa-exclamation-triangle"></i>
                     </span>
                 </div>
-                <!-- <p class="help is-danger">This email is invalid</p> -->
+                <%if(email){ %>
+                    <p class="help is-danger">This email is invalid</p>
+                    <% } %>
             </div>
 
             <div class="field">
@@ -101,6 +105,9 @@
                             No
                         </label>
                     </div>
+                    <%if(true){ %>
+                        <p class="help is-danger">Seek for Consent ❌</p>
+                        <% } %>
                 </div>
 
                 <div class="field is-grouped">
@@ -116,5 +123,5 @@
 
     </div>
     </form>
-    <script src="/scripts/formvalidation"></script>
-    <%-include('partials/footer'); -%>
+
+    <%- include('partials/footer'); -%>

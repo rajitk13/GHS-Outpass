@@ -4,124 +4,139 @@
         <h2 class="subtitle is-4">Outpass Portal</h2>
         <h2 class="subtitle is-5">Manipal University Jaipur</h2>
         <hr>
-        <form name="form">
-            <div class="field">
-                <label class="label">Name</label>
-                <div class="control">
-                    <input class="input" type="text" name="name" id="name" placeholder="Text input">
+        <% if(typeof alert !='undefined' ) { %>
+            <% alert.forEach(function(error) { %>
+                <div class="notification is-warning">
+                    <button class="delete"></button>
+                    <%= error.msg %>
                 </div>
-                <%if(name){ %>
-                    <p class="help is-danger">Name is invalid ❌</p>
+                <% }) %>
                     <% } %>
-            </div>
 
-            <div class="field">
-                <label class="label">Registration Number</label>
-                <div class="control has-icons-left has-icons-right">
-                    <input class="input" name="reg" id="reg" type="text" placeholder="Text input" value="">
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-user"></i>
-                    </span>
-                </div>
-                <%if(reg){ %>
-                    <p class="help is-danger">Registration Number is invalid ❌</p>
-                    <% } %>
-            </div>
+                        <form name="form" action="/submit" method="post">
+                            <div class="field">
+                                <label class="label">Name</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="name" id="name" placeholder="Text input">
+                                </div>
 
-            <div class="field">
-                <label class="label">Email (OUTLOOK) </label>
-                <div class="control has-icons-left has-icons-right">
-                    <input class="input" name="email" id="email" type="email" placeholder="Email input" value="">
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-envelope"></i>
-                    </span>
-                    <span class="icon is-small is-right">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </span>
-                </div>
-                <%if(email){ %>
-                    <p class="help is-danger">This email is invalid</p>
-                    <% } %>
-            </div>
+                            </div>
 
-            <div class="field">
-                <label class="label">Block Warden</label>
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option value="Chief Warden" id="block-warden">Chief Warden</option>
-                            <option value="Manoj Sir" name="block-warden" id="block-warden">Manoj Sir</option>
-                            <option value="sir 2" name="block-warden" id="block-warden">SIR 2</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">BLOCK</label>
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option id="block" name="block" value="B1">B1</option>
-                            <option id="block" name="block" value="B2">B2</option>
-                            <option id="block" name="block" value="B3">B3</option>
-                            <option id="block" name="block" value="B3">B4</option>
-                            <option id="block" name="block" value="B5">B5</option>
-                            <option id="block" name="block" value="B6">B6</option>
-                            <option id="block" name="block" value="B7">B7</option>
-                            <option id="block" name="block" value="G1">G1</option>
-                            <option id="block" name="block" value="G2">G2</option>
-                            <option id="block" name="block" value="G3">G3</option>
-                            <option id="block" name="block" value="G4">G4</option>
-                            <option id="block" name="block" value="G5">G5</option>
-                        </select>
-                    </div>
-                </div>
+                            <div class="field">
+                                <label class="label">Registration Number</label>
+                                <div class="control has-icons-left has-icons-right">
+                                    <input class="input" name="reg" id="reg" type="text" placeholder="Text input"
+                                        value="">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
 
-                <div class="field">
-                    <label class="label">REASON</label>
-                    <div class="control">
-                        <textarea class="textarea" id="reason" name="reason" placeholder="Textarea"></textarea>
-                    </div>
-                </div>
+                            </div>
 
-                <div class="field">
-                    <div class="control">
-                        <label class="checkbox">
-                            <input type="checkbox">
-                            I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                    </div>
-                </div>
+                            <div class="field">
+                                <label class="label">Email (OUTLOOK) </label>
+                                <div class="control has-icons-left has-icons-right">
+                                    <input class="input" name="email" id="email" type="text" placeholder="Email input"
+                                        value="">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                </div>
 
-                <div class="field">
-                    <label class="label">Parent Consent</label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="Consent" id="Consent" value="True">
-                            Yes
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="Consent" id="Consent" value="False">
-                            No
-                        </label>
-                    </div>
-                    <%if(true){ %>
-                        <p class="help is-danger">Seek for Consent ❌</p>
-                        <% } %>
-                </div>
+                            </div>
 
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button class="button is-link">Submit</button>
-                    </div>
-                    <div class="control">
-                        <button class="button is-link is-light">Cancel</button>
-                    </div>
-                </div>
-            </div>
+                            <div class="field">
+                                <label class="label">Block Warden</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select name="warden" id="warden">
+                                            <option value="Chief Warden" selected>Chief Warden
+                                            </option>
+                                            <option value="Manoj Sir">Manoj Sir
+                                            </option>
+                                            <option value="sir 2">SIR 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">BLOCK</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select id="block" name="block">
+                                            <option value="B1" selected>B1</option>
+                                            <option value="B2">B2</option>
+                                            <option value="B3">B3</option>
+                                            <option value="B4">B4</option>
+                                            <option value="B5">B5</option>
+                                            <option value="B6">B6</option>
+                                            <option value="B7">B7</option>
+                                            <option value="G1">G1</option>
+                                            <option value="G2">G2</option>
+                                            <option value="G3">G3</option>
+                                            <option value="G4">G4</option>
+                                            <option value="G5">G5</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">REASON</label>
+                                    <div class="control">
+                                        <textarea class="textarea" id="reason" name="reason"
+                                            placeholder="Textarea"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="checkbox">
+                                            <input type="checkbox">
+                                            I agree to the <a href="#">terms and conditions</a>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Parent Consent</label>
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="Consent" id="Consent" value="True">
+                                            Yes
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="Consent" id="Consent" value="False">
+                                            No
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <div class="field is-grouped">
+                                    <div class="control">
+                                        <button class="button is-link">Submit</button>
+                                    </div>
+                                    <div class="control">
+                                        <button class="button is-link is-light">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
 
 
     </div>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                const $notification = $delete.parentNode;
+
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+    </script>
 
     <%- include('partials/footer'); -%>

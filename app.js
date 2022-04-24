@@ -12,7 +12,8 @@ const mongoose = require("mongoose");
 const Schema = require("mongoose").Schema;
 const ejs = require("ejs");
 const crypto = require("crypto");
-const { body, validationResult } = require('express-validator');
+const { body, validationResult } = require("express-validator");
+const { v1: uuidv1 } = require('uuid');
 
 //MongoDB
 mongoose.connect(
@@ -21,6 +22,7 @@ mongoose.connect(
 );
 
 const passportLocalMongoose = require("passport-local-mongoose");
+const urlencoded = require("body-parser/lib/types/urlencoded");
 app.set("view engine", "ejs");
 app.use(express.static("Public"));
 app.use(
@@ -32,15 +34,16 @@ app.use(
   })
 );
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 const information = new mongoose.Schema({
+  id: String,
   name: String,
   registration: Number,
   email: String,
-  warden: Number,
+  warden: String,
   block: String,
   reason: String,
   permission: Boolean,
@@ -62,7 +65,7 @@ passport.deserializeUser(UserDetails.deserializeUser());
 
 //HOME PAGE ROUTE
 app.get("/", (req, res) => {
-  res.render("home",{name:false,reg:false,email:false,consent:false});
+  res.render("home");
 });
 
 //Login Page route
@@ -71,18 +74,44 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.post("/submit", (req, res) => {
-  let val = new Info({
-    name: req.body.name,
-    registration: req.body.registration,
-    email: req.body.email,
-    warden: req.body.warden,
-    block: req.body.block,
-    reason: req.body.reason,
-    permission: false,
-    remark: "Pending",
-  });
-});
+app.post(
+  "/submit",
+  body("name", "Name must is not valid").isAlpha('en-US', {ignore: ' '}),
+  body("email", "Email is not valid").isEmail().normalizeEmail(),
+  body("reg", "Registration Number is not valid").isNumeric().isLength(9),
+  (req, res) => {
+    const id = uuidv1();
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // return res.status(422).jsonp(errors.array())
+      const alert = errors.array();
+      res.render("home", {
+        alert,
+      });
+    } else {
+      let val = new Info({
+        id: id,
+        name: req.body.name,
+        registration: req.body.registration,
+        email: req.body.email,
+        warden: req.body.warden,
+        block: req.body.block,
+        reason: req.body.reason,
+        permission: false,
+        remark: "Pending",
+      });
+
+      val.save(function (err) {
+        if (err) {
+          console.log(err);
+        }
+      });
+    
+    }
+    res.render('success',{id});
+
+  }
+);
 
 app.get("/secret", connectEnsureLogin.ensureLoggedIn(), (req, res) =>
   res.render("requests.ejs")

@@ -1,3 +1,26 @@
-<%-include('partials/header')-%>
-    <h1>HERE WE WILL PLACE ALL THE REQUESTS</h1>
-<%-include('partials/footer')-%>
+<%- include('partials/header') -%>
+    <div class="area">
+        <table class="table is-striped">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody <% for(var i=0;i<data.length;i++) { %>
+                <tr>
+                    <td>
+                        <%= i+1 %>
+                    </td>
+                    <td>
+                        <%= data[i].name %>
+                    </td>
+                    <td><a href="/access/<%= data[i].id %>">View</a></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <%- include('partials/footer') -%>

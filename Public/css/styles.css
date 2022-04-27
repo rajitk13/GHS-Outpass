@@ -12,3 +12,18 @@ body {
 .area {
   padding: 5% 10%;
 }
+
+.table{
+width: 100%;
+}
+
+
+.table td {
+
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.subsection{
+  padding-top: 2rem;
+}

@@ -1,0 +1,65 @@
+<%- include('partials/header'); -%>
+    <div class="area content">
+        <h1>
+            <%=val.name%>
+        </h1>
+        <div class="box">
+            <h3>Email</h3>
+            <%=val.email%>
+        </div>
+        <div class="box">
+            <h3>Reason</h3>
+
+            <p>
+                <%=val.reason%>
+            </p>
+        </div>
+        <div class="box">
+            <h3>Registration Number</h3>
+
+            <p>
+                <%=val.registration%>
+            </p>
+        </div>
+        <div class="box">
+            <h3>Block</h3>
+            <p>
+                <%=val.block%>
+            </p>
+        </div>
+        <div class="box">
+            <h3>Warden</h3>
+            <p>
+                <%=val.warden%>
+            </p>
+        </div>
+        <div class="box">
+            <h3>Remark</h3>
+            <p>
+                <%=val.remark%>
+            </p>
+        </div>
+        <form action="/access/<%=val.id%>/remark" method="post">
+            <label class="label">Remark</label>
+            <input class="input is-danger" type="text" placeholder="Danger input" name="remark" id="remark">
+            <div class="approve">
+                <label class="label">Permission</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="answer" value=true>
+                        Yes
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer" value=false>
+                        No
+                    </label>
+                </div>
+            </div>
+            <div class="subsection">
+                <input class="button" type="submit" value="Submit">
+            </div>
+        </form>
+
+
+    </div>
+    <%- include('partials/footer'); -%>

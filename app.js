@@ -13,7 +13,7 @@ const Schema = require("mongoose").Schema;
 const ejs = require("ejs");
 const crypto = require("crypto");
 const { body, validationResult } = require("express-validator");
-const { v1: uuidv1 } = require('uuid');
+const { v1: uuidv1 } = require("uuid");
 
 //MongoDB
 mongoose.connect(
@@ -74,9 +74,10 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+//Home page form validation and mongodb data save
 app.post(
   "/submit",
-  body("name", "Name must is not valid").isAlpha('en-US', {ignore: ' '}),
+  body("name", "Name must is not valid").isAlpha("en-US", { ignore: " " }),
   body("email", "Email is not valid").isEmail().normalizeEmail(),
   body("reg", "Registration Number is not valid").isNumeric().isLength(9),
   (req, res) => {
@@ -92,7 +93,7 @@ app.post(
       let val = new Info({
         id: id,
         name: req.body.name,
-        registration: req.body.registration,
+        registration: req.body.reg,
         email: req.body.email,
         warden: req.body.warden,
         block: req.body.block,
@@ -106,17 +107,52 @@ app.post(
           console.log(err);
         }
       });
-    
+      res.render("success", { id });
     }
-    res.render('success',{id});
-
   }
 );
+//for viewing the submissions
+app.get("/access", connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+  Info.find({}, function (err, reqs) {
+    res.render("requests.ejs", { data: reqs });
+  });
+});
 
-app.get("/secret", connectEnsureLogin.ensureLoggedIn(), (req, res) =>
-  res.render("requests.ejs")
-);
+//for viewing the request details
+app.get("/access/:id", (req, res) => {
+  Info.findOne({ id: req.params.id }, function (err, data) {
+    res.render("approval", { val: data });
+  });
+});
 
+//For allow reject status update
+app.post("/access/:id/remark", (req, res) => {
+  Info.findOneAndUpdate(
+    { id: req.params.id },
+    { $set: { remark: req.body.remark,permission: req.body.answer}},
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        console.log("Something wrong when updating data!");
+      }
+      //For logging the document
+      // console.log(doc);
+    }
+  );
+  res.redirect("/access");
+});
+//Status check 
+app.get("/status",(req,res)=>{
+  res.render('status',{data:""});
+})
+
+//Status check - post
+app.post("/status",(req,res)=>{
+  Info.findOne({id:req.body.id},(err,data)=>{
+    res.render('status',{data:data});
+  })
+})
+//Passport js login logout
 app.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/login");
@@ -126,7 +162,7 @@ app.post(
   "/login",
   passport.authenticate("local", {
     failureRedirect: "/login",
-    successRedirect: "/secret",
+    successRedirect: "/access",
   }),
   (req, res) => {
     console.log(req.user);

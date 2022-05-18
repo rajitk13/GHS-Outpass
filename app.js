@@ -69,6 +69,11 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+//BLOCK WARDENS PAGE 
+app.get("/blockwarden",(req,res)=>{
+  res.render('blockwarden');
+})
+
 //Login Page route
 app.get("/login", (req, res) => {
   req.logout();

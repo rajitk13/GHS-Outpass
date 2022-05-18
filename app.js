@@ -13,7 +13,7 @@ const Schema = require("mongoose").Schema;
 const ejs = require("ejs");
 const crypto = require("crypto");
 const { body, validationResult } = require("express-validator");
-const { v1: uuidv1 } = require("uuid");
+const shortid = require('shortid');
 
 //MongoDB
 mongoose.connect(
@@ -23,6 +23,7 @@ mongoose.connect(
 
 const passportLocalMongoose = require("passport-local-mongoose");
 const urlencoded = require("body-parser/lib/types/urlencoded");
+const { addAbortSignal } = require("stream");
 app.set("view engine", "ejs");
 app.use(express.static("Public"));
 app.use(
@@ -81,7 +82,7 @@ app.post(
   body("email", "Email is not valid").isEmail().normalizeEmail(),
   body("reg", "Registration Number is not valid").isNumeric().isLength(9),
   (req, res) => {
-    const id = uuidv1();
+    const id = shortid.generate();
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       // return res.status(422).jsonp(errors.array())
@@ -150,6 +151,23 @@ app.get("/status",(req,res)=>{
 app.post("/status",(req,res)=>{
   Info.findOne({id:req.body.id},(err,data)=>{
     res.render('status',{data:data});
+  })
+})
+
+//Closing outpass request 
+app.get("/return",(req,res)=>{
+  res.render('return',{data:""});
+});
+
+app.post("/return/search",(req,res)=>{
+  Info.findOne({id:req.body.id},(err,data)=>{
+    res.render('return',{data:data});
+  })
+})
+
+app.post("/return/search/:id",(req,res)=>{
+  Info.findOneAndDelete({id:req.params.id},(err,data)=>{
+    res.render('success',{id:"Closed"});
   })
 })
 //Passport js login logout

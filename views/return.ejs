@@ -1,7 +1,9 @@
 <%- include('partials/header'); -%>
     <div class="area">
+        <h1 class="title">Closing Request on Return</h1>
+        <hr>
         <h1 class="title">Status</h1>
-        <form action="/status" method="post">
+        <form action="/return/search" method="post">
             <div class="field is-grouped">
                 <p class="control is-expanded">
                     <input class="input" type="text" placeholder="Enter Request ID:" name="id" id="id">
@@ -25,10 +27,14 @@
                     <% if(data.permission) { %>
                         <%=data.name%> has permission.
                             <% } else { %>
-                                <%=data.name%> does not has permission.
+                                <%=data.name%> does not have permission.
                                     <% } %>
                 </h2>
             </div>
+        
+            <form action="/return/search/<%=data.id%>" method="post" class="subsection">
+                <button type="submit" class="button is-link is-light ">Close Outpass</button>
+            </form>
             <% } %>
     </div>
     <%- include('partials/footer'); -%>
